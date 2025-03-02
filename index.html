@@ -3,27 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحليل بيانات الزوار</title>
+    <title>جمع بيانات الزوار</title>
     <style>
-        body { background-color: black; color: lime; font-family: monospace; padding: 20px; }
+        body { background-color: black; color: lime; font-family: monospace; text-align: center; }
+        table { width: 80%; border-collapse: collapse; margin: 20px auto; }
+        th, td { border: 1px solid lime; padding: 10px; text-align: center; }
+        th { background-color: darkgreen; }
     </style>
 </head>
 <body>
-    <h1>تحليل بيانات الزائر</h1>
-    <p id="info">جارٍ جمع البيانات...</p>
+    <h1>بيانات الزائر</h1>
+    <p>تم جمع بياناتك بنجاح!</p>
+    <table>
+        <tr>
+            <th>البيان</th>
+            <th>القيمة</th>
+        </tr>
+        <tr>
+            <td>IP</td>
+            <td id="ip"></td>
+        </tr>
+        <tr>
+            <td>المدينة</td>
+            <td id="city"></td>
+        </tr>
+        <tr>
+            <td>الدولة</td>
+            <td id="country"></td>
+        </tr>
+        <tr>
+            <td>مقدم الخدمة (ISP)</td>
+            <td id="isp"></td>
+        </tr>
+        <tr>
+            <td>المتصفح</td>
+            <td id="user-agent"></td>
+        </tr>
+    </table>
     <script>
-        fetch('https://ipinfo.io/json?token=YOUR_API_KEY')  
+        // جلب بيانات الزائر باستخدام API ipinfo.io
+        fetch('https://ipinfo.io/json?token=YOUR_API_KEY')
             .then(response => response.json())
             .then(data => {
-                document.getElementById("info").innerHTML = 
-                    "IP: " + data.ip + "<br>" +
-                    "المدينة: " + data.city + "<br>" +
-                    "الدولة: " + data.country + "<br>" +
-                    "مقدم الخدمة: " + data.org + "<br>" +
-                    "نظام التشغيل: " + navigator.platform + "<br>" +
-                    "المتصفح: " + navigator.userAgent;
+                document.getElementById('ip').innerText = data.ip || 'غير معروف';
+                document.getElementById('city').innerText = data.city || 'غير معروف';
+                document.getElementById('country').innerText = data.country || 'غير معروف';
+                document.getElementById('isp').innerText = data.org || 'غير معروف';
             })
-            .catch(() => document.getElementById("info").innerHTML = "تعذر الحصول على البيانات.");
+            .catch(error => {
+                console.error('حدث خطأ أثناء جلب البيانات:', error);
+            });
+
+        // جلب معلومات المتصفح
+        document.getElementById('user-agent').innerText = navigator.userAgent || 'غير معروف';
     </script>
 </body>
 </html>
