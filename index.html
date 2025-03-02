@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل بيانات الزوار</title>
+    <style>
+        body { background-color: black; color: lime; font-family: monospace; padding: 20px; }
+    </style>
+</head>
+<body>
+    <h1>تحليل بيانات الزائر</h1>
+    <p id="info">جارٍ جمع البيانات...</p>
+    <script>
+        fetch('https://ipinfo.io/json?token=YOUR_API_KEY')  
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("info").innerHTML = 
+                    "IP: " + data.ip + "<br>" +
+                    "المدينة: " + data.city + "<br>" +
+                    "الدولة: " + data.country + "<br>" +
+                    "مقدم الخدمة: " + data.org + "<br>" +
+                    "نظام التشغيل: " + navigator.platform + "<br>" +
+                    "المتصفح: " + navigator.userAgent;
+            })
+            .catch(() => document.getElementById("info").innerHTML = "تعذر الحصول على البيانات.");
+    </script>
+</body>
+</html>
